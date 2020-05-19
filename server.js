@@ -1,21 +1,28 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const cokieParser = require('cokie-parser');
+
+const cokieParser = require('cookie-parser');
 const cors = require('cors');
-require('dotenv').config;
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 //app
-
 const app = express();
 
+//DB
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
+    .then(() => console.log('DB connected'));
+
 // middlewears
-app.use(morgan('dev'))
-app.use(bodyParser.json())
-app.use(cokieParser())
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(cokieParser());
 
 //cors
-app.use(cors())
+if (process.env.NODE_ENV === 'development') {
+    app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
+}
 
 //routes
 app.get('/api', (req, res) => {
