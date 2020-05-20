@@ -14,7 +14,7 @@ const authRoutes = require('./routes/auth');
 const app = express();
 
 //DB
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false, useUnifiedTopology: true })
     .then(() => console.log('DB connected'));
 
 // middlewears
